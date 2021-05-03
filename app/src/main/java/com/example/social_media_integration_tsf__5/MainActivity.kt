@@ -9,6 +9,7 @@ import android.view.animation.AnimationUtils
 import android.widget.FrameLayout
 import android.widget.LinearLayout
 import android.widget.TextView
+import com.airbnb.lottie.LottieAnimationView
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -23,11 +24,17 @@ class MainActivity : AppCompatActivity() {
         window.statusBarColor = this.resources.getColor(R.color.black)
 
         val introText : TextView = findViewById(R.id.introTextView)
+        val gAnim : LottieAnimationView = findViewById(R.id.gAnimation)
+        val gLogInText : TextView = findViewById(R.id.gLogInText)
+        val fAnim : LottieAnimationView = findViewById(R.id.fAnimation)
+        val fLogInText : TextView = findViewById(R.id.fLogInText)
 
-        val animationFadeIn = AnimationUtils.loadAnimation(this,R.anim.slide_down)
+        val animationSlideDown = AnimationUtils.loadAnimation(this,R.anim.slide_down)
         val animationSlideUp = AnimationUtils.loadAnimation(this,R.anim.slide_up)
+        val animationSlideLeft = AnimationUtils.loadAnimation(this,R.anim.slide_left)
+        val animationSlideRight = AnimationUtils.loadAnimation(this,R.anim.slide_right)
 
-        introText.startAnimation(animationFadeIn)
+        introText.startAnimation(animationSlideDown)
 
         val gView : View = findViewById(R.id.googleView)
         gView.setOnClickListener {
@@ -38,6 +45,15 @@ class MainActivity : AppCompatActivity() {
         fView.setOnClickListener {
             startActivity(Intent(this,FacebookSignInActivity::class.java))
         }
+
+        gView.startAnimation(animationSlideRight)
+        gAnim.startAnimation(animationSlideRight)
+        gLogInText.startAnimation(animationSlideRight)
+
+        fView.startAnimation(animationSlideLeft)
+        fAnim.startAnimation(animationSlideLeft)
+        fLogInText.startAnimation(animationSlideLeft)
+
 
 
 
