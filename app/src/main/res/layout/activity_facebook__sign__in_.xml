@@ -4,14 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".GoogleSignInActivity"
+    tools:context=".FacebookSignInActivity"
     android:background="#000000">
 
     <ImageView
         android:id="@+id/gIcon"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:src="@drawable/search"
+        android:src="@drawable/facebook"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
@@ -20,7 +20,7 @@
         app:layout_constraintVertical_bias="0.257" />
 
     <com.github.florent37.materialtextfield.MaterialTextField
-        android:id="@+id/gUsernameField"
+        android:id="@+id/fUsernameField"
         android:layout_width="350dp"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -43,14 +43,14 @@
     </com.github.florent37.materialtextfield.MaterialTextField>
 
     <com.github.florent37.materialtextfield.MaterialTextField
-        android:id="@+id/gPasswordField"
+        android:id="@+id/fPasswordField"
         android:layout_width="350dp"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.491"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/gUsernameField"
+        app:layout_constraintTop_toBottomOf="@id/fUsernameField"
         app:layout_constraintVertical_bias="0.106"
         app:mtf_image="@drawable/padlock"
         app:mtf_labelColor="#ffffff">
@@ -66,7 +66,7 @@
     </com.github.florent37.materialtextfield.MaterialTextField>
 
     <Button
-        android:id="@+id/gLogInBtn"
+        android:id="@+id/fLogInBtn"
         android:layout_width="125dp"
         android:layout_height="60dp"
         android:backgroundTint="@color/white"
@@ -79,8 +79,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/gPasswordField"
+        app:layout_constraintTop_toBottomOf="@id/fPasswordField"
         app:layout_constraintVertical_bias="0.274" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

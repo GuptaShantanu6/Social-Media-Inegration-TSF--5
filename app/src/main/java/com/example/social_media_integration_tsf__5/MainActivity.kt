@@ -4,15 +4,11 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import android.view.Window
 import android.view.WindowManager
 import android.view.animation.AnimationUtils
 import android.widget.FrameLayout
 import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.appcompat.widget.AppCompatTextView
-import androidx.core.content.ContextCompat
-import kotlin.math.log
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,18 +24,21 @@ class MainActivity : AppCompatActivity() {
 
         val introText : TextView = findViewById(R.id.introTextView)
 
-        val animationFadeIn = AnimationUtils.loadAnimation(this,R.anim.bounce)
+        val animationFadeIn = AnimationUtils.loadAnimation(this,R.anim.slide_down)
         val animationSlideUp = AnimationUtils.loadAnimation(this,R.anim.slide_up)
 
         introText.startAnimation(animationFadeIn)
 
-        val logInBox : LinearLayout = findViewById(R.id.logInLL)
-        logInBox.startAnimation(animationSlideUp)
-
-        val gFrame : FrameLayout = findViewById(R.id.google_frame)
-        gFrame.setOnClickListener {
+        val gView : View = findViewById(R.id.googleView)
+        gView.setOnClickListener {
             startActivity(Intent(this,GoogleSignInActivity::class.java))
         }
+
+        val fView : View = findViewById(R.id.facebookView)
+        fView.setOnClickListener {
+            startActivity(Intent(this,FacebookSignInActivity::class.java))
+        }
+
 
 
     }
