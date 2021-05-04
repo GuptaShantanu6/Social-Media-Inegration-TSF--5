@@ -7,6 +7,7 @@ import android.view.animation.AnimationUtils
 import android.widget.Button
 import android.widget.ImageView
 import com.github.florent37.materialtextfield.MaterialTextField
+import com.google.firebase.database.FirebaseDatabase
 
 class GoogleSignInActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "539837637113",
+    "project_id": "smi-tsf-5",
+    "storage_bucket": "smi-tsf-5.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:539837637113:android:bf4293ed867180b5b5dd28",
+        "android_client_info": {
+          "package_name": "com.example.social_media_integration_tsf__5"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "539837637113-o6b1s9f96beu4r1avr2phb312torl8k7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA7v8uBaRFVOMqVi6M1Mf_zzuY_JhTsnts"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "539837637113-o6b1s9f96beu4r1avr2phb312torl8k7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
