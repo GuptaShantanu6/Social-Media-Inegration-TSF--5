@@ -102,4 +102,32 @@
         app:layout_constraintStart_toEndOf="@id/fAnimation"
         app:layout_constraintTop_toTopOf="@id/facebookView" />
 
+    <View
+        android:id="@+id/debugGoogleSignInView"
+        android:layout_width="100dp"
+        android:layout_height="70dp"
+        android:background="@drawable/rectangle_box"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.186"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/googleView"
+        app:layout_constraintVertical_bias="0.121" />
+
+    <TextView
+        android:id="@+id/debugGoogleTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Sign out from \nGoogle"
+        android:gravity="center"
+        android:textColor="#000000"
+        app:layout_constraintTop_toTopOf="@id/debugGoogleSignInView"
+        app:layout_constraintBottom_toBottomOf="@id/debugGoogleSignInView"
+        app:layout_constraintStart_toStartOf="@id/debugGoogleSignInView"
+        app:layout_constraintEnd_toEndOf="@id/debugGoogleSignInView"
+        android:fontFamily="@font/lemonte_buster"
+        android:textStyle="bold"
+        />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>
