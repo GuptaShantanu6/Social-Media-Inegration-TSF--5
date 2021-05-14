@@ -1,13 +1,18 @@
 package com.example.social_media_integration_tsf__5
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.WindowManager
 import android.widget.TextView
+import android.widget.Toast
 import com.airbnb.lottie.LottieAnimationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 
 class GoogleSignedInActivity : AppCompatActivity() {
 
@@ -36,12 +41,13 @@ class GoogleSignedInActivity : AppCompatActivity() {
         mAuth = FirebaseAuth.getInstance()
         val currentUser = mAuth.currentUser
 
-        gFetchData(currentUser)
+        val gSignOutBtn : View = findViewById(R.id.gSignOutView)
+        gSignOutBtn.setOnClickListener {
+            Firebase.auth.signOut()
+            startActivity(Intent(this@GoogleSignedInActivity,MainActivity::class.java))
+            finish()
+        }
 
     }
 
-    private fun gFetchData(currentUser: FirebaseUser?) {
-        gNameFinal.text = currentUser?.displayName
-        gMailFinal.text = currentUser?.email
-    }
 }

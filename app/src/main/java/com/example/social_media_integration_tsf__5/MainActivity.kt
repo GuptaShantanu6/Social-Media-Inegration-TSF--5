@@ -1,6 +1,7 @@
 package com.example.social_media_integration_tsf__5
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -37,6 +38,13 @@ class MainActivity : AppCompatActivity() {
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
         window.statusBarColor = this.resources.getColor(R.color.black)
 
+        mAuth = Firebase.auth
+
+        val currentUser = mAuth.currentUser
+        if (currentUser != null){
+            Firebase.auth.signOut()
+        }
+
         val introText : TextView = findViewById(R.id.introTextView)
         val gAnim : LottieAnimationView = findViewById(R.id.gAnimation)
         val gLogInText : TextView = findViewById(R.id.gLogInText)
@@ -54,8 +62,6 @@ class MainActivity : AppCompatActivity() {
         debugGoogleView.visibility = View.GONE
 
         introText.startAnimation(animationSlideDown)
-
-        mAuth = Firebase.auth
 
         createGoogleSignInRequest()
 
@@ -114,13 +120,26 @@ class MainActivity : AppCompatActivity() {
 
     private fun firebaseAuthWithGoogle(idToken: String) {
         val credential = GoogleAuthProvider.getCredential(idToken,null)
-        try {
-            mAuth.signInWithCredential(credential)
-            startActivity(Intent(this@MainActivity,GoogleSignedInActivity::class.java))
-        } catch (e : Exception) {
-            Toast.makeText(this,"Google Sign In with Credential Failed",Toast.LENGTH_SHORT).show()
-            Log.d(TAG,e.toString())
-        }
+        mAuth.signInWithCredential(credential)
+            .addOnCompleteListener(this) { task ->
+                if (task.isSuccessful) {
+                    Log.d(TAG,"signInWithCredential : Success")
+                    val user = mAuth.currentUser
+                    Log.d(TAG, user?.displayName!!)
+
+                    val sharedPreferences = getSharedPreferences("PREFERENCE_NAME",Context.MODE_PRIVATE)
+                    val editor = sharedPreferences.edit()
+                    editor.putString("gName", user.displayName!!)
+                    editor.putString("gMailId",user.email)
+                    editor.apply()
+
+
+                }
+                else {
+                    Log.w(TAG,"signInWithCredential : Failed", task.exception)
+
+                }
+            }
 
     }
 
@@ -129,12 +148,12 @@ class MainActivity : AppCompatActivity() {
         private const val RC_SIGN_IN = 120
     }
 
-    override fun onStart() {
-        super.onStart()
-
-        val currentUser = mAuth.currentUser
-        if (currentUser != null){
-            startActivity(Intent(this@MainActivity,GoogleSignedInActivity::class.java))
-        }
-    }
+//    override fun onStart() {
+//        super.onStart()
+//
+//        val currentUser = mAuth.currentUser
+//        if (currentUser != null){
+//            startActivity(Intent(this@MainActivity,GoogleSignedInActivity::class.java))
+//        }
+//    }
 }

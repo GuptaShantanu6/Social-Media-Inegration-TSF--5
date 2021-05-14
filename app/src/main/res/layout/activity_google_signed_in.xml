@@ -12,7 +12,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_end="659dp" />
+        app:layout_constraintGuide_percent="0.15" />
 
     <TextView
         android:id="@+id/gNameHeading"
@@ -37,29 +37,36 @@
         android:text="Loading . . . ."
         android:textColor="#ffffff"
         android:textSize="30sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@id/guideline2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/gNameHeading"
-        android:textStyle="bold"/>
+        app:layout_constraintTop_toBottomOf="@id/gNameHeading" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_begin="423dp" />
+        app:layout_constraintGuide_end="562dp" />
 
-<!--    <com.airbnb.lottie.LottieAnimationView-->
-<!--        android:id="@+id/gLoadingAnim"-->
-<!--        android:layout_width="60dp"-->
-<!--        android:layout_height="60dp"-->
-<!--        app:layout_constraintTop_toTopOf="parent"-->
-<!--        app:layout_constraintBottom_toBottomOf="parent"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:lottie_fileName="27-loading.json"-->
-<!--        app:lottie_speed="1"/>-->
+    <!--    <com.airbnb.lottie.LottieAnimationView-->
+    <!--        android:id="@+id/gLoadingAnim"-->
+    <!--        android:layout_width="60dp"-->
+    <!--        android:layout_height="60dp"-->
+    <!--        app:layout_constraintTop_toTopOf="parent"-->
+    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:lottie_fileName="27-loading.json"-->
+    <!--        app:lottie_speed="1"/>-->
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_begin="358dp" />
 
     <TextView
         android:id="@+id/gMailHeading"
@@ -73,7 +80,7 @@
         app:layout_constraintBottom_toTopOf="@id/gMail"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/guideline2" />
+        app:layout_constraintTop_toBottomOf="@id/guideline5" />
 
     <TextView
         android:id="@+id/gMail"
@@ -84,17 +91,42 @@
         android:text="Loading . . . ."
         android:textColor="#ffffff"
         android:textSize="25sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@id/guideline4"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/gMailHeading"
-        android:textStyle="bold"/>
+        app:layout_constraintTop_toBottomOf="@id/gMailHeading" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_begin="675dp" />
+        app:layout_constraintGuide_end="331dp" />
+
+    <View
+        android:id="@+id/gSignOutView"
+        android:layout_width="150dp"
+        android:layout_height="60dp"
+        android:background="@drawable/rectangle_box"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/guideline4" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/lemonte_buster"
+        android:text="Sign Out"
+        android:textColor="#000000"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@id/gSignOutView"
+        app:layout_constraintEnd_toEndOf="@id/gSignOutView"
+        app:layout_constraintStart_toStartOf="@id/gSignOutView"
+        app:layout_constraintTop_toTopOf="@id/gSignOutView" />
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
