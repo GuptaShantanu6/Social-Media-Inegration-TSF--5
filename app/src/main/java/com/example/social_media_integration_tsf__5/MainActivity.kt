@@ -1,6 +1,8 @@
 package com.example.social_media_integration_tsf__5
 
+import android.annotation.SuppressLint
 import android.app.Activity
+import android.app.ProgressDialog
 import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -25,6 +27,8 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var mGoogleSignInClient : GoogleSignInClient
     private lateinit var mAuth: FirebaseAuth
+    private lateinit var gProgressDialog : ProgressDialog
+    private lateinit var fProgressDialog : ProgressDialog
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -40,6 +44,9 @@ class MainActivity : AppCompatActivity() {
 
         mAuth = Firebase.auth
 
+        gProgressDialog = ProgressDialog(this@MainActivity)
+        fProgressDialog = ProgressDialog(this@MainActivity)
+
         val currentUser = mAuth.currentUser
         if (currentUser != null){
             Firebase.auth.signOut()
@@ -54,7 +61,6 @@ class MainActivity : AppCompatActivity() {
         val debugGoogleText : TextView = findViewById(R.id.debugGoogleTextView)
 
         val animationSlideDown = AnimationUtils.loadAnimation(this,R.anim.slide_down)
-//        val animationSlideUp = AnimationUtils.loadAnimation(this,R.anim.slide_up)
         val animationSlideLeft = AnimationUtils.loadAnimation(this,R.anim.slide_left)
         val animationSlideRight = AnimationUtils.loadAnimation(this,R.anim.slide_right)
 
@@ -67,7 +73,9 @@ class MainActivity : AppCompatActivity() {
 
         val gView : View = findViewById(R.id.googleView)
         gView.setOnClickListener {
-            googleSignIn()
+            gProgressDialog.setTitle("Please Wait")
+            gProgressDialog.show()
+            googleSignIn(gProgressDialog)
         }
 
         val fView : View = findViewById(R.id.facebookView)
@@ -94,7 +102,7 @@ class MainActivity : AppCompatActivity() {
         mGoogleSignInClient = GoogleSignIn.getClient(this,gso)
     }
 
-    private fun googleSignIn() {
+    private fun googleSignIn(gProgressDialog: ProgressDialog) {
         val signInIntent = mGoogleSignInClient.signInIntent
         startActivityForResult(signInIntent, RC_SIGN_IN)
     }
@@ -108,7 +116,7 @@ class MainActivity : AppCompatActivity() {
                 try {
                     val account = task.getResult(ApiException::class.java)!!
                     Log.d(TAG,"firebaseAuthWithGoogle:"+account.id)
-                    firebaseAuthWithGoogle(account.idToken!!)
+                    firebaseAuthWithGoogle(account.idToken!!,gProgressDialog)
                 } catch (e : ApiException) {
                     Toast.makeText(this,"Google Sign In Failed",Toast.LENGTH_SHORT).show()
                     Log.d(TAG,e.toString())
@@ -118,7 +126,8 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun firebaseAuthWithGoogle(idToken: String) {
+    @SuppressLint("CommitPrefEdits")
+    private fun firebaseAuthWithGoogle(idToken: String, gProgressDialog: ProgressDialog) {
         val credential = GoogleAuthProvider.getCredential(idToken,null)
         mAuth.signInWithCredential(credential)
             .addOnCompleteListener(this) { task ->
@@ -127,12 +136,15 @@ class MainActivity : AppCompatActivity() {
                     val user = mAuth.currentUser
                     Log.d(TAG, user?.displayName!!)
 
-                    val sharedPreferences = getSharedPreferences("PREFERENCE_NAME",Context.MODE_PRIVATE)
-                    val editor = sharedPreferences.edit()
-                    editor.putString("gName", user.displayName!!)
-                    editor.putString("gMailId",user.email)
-                    editor.apply()
+                    val gInfo = baseContext.getSharedPreferences("gInfoMain",Context.MODE_PRIVATE).edit()
+                    gInfo.apply {
+                        putString("gName", user.displayName!!)
+                        putString("gMailId", user.email!!)
+                        apply()
+                    }
 
+                    gProgressDialog.dismiss()
+                    startActivity(Intent(this@MainActivity,GoogleSignedInActivity::class.java))
 
                 }
                 else {
@@ -140,7 +152,6 @@ class MainActivity : AppCompatActivity() {
 
                 }
             }
-
     }
 
     companion object {
@@ -148,12 +159,4 @@ class MainActivity : AppCompatActivity() {
         private const val RC_SIGN_IN = 120
     }
 
-//    override fun onStart() {
-//        super.onStart()
-//
-//        val currentUser = mAuth.currentUser
-//        if (currentUser != null){
-//            startActivity(Intent(this@MainActivity,GoogleSignedInActivity::class.java))
-//        }
-//    }
 }
