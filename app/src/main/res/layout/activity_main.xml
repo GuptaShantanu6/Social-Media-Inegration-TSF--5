@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".MainActivity"
-    android:background="#000000">
+    android:background="#000000"
+    tools:context=".MainActivity">
+
 
     <TextView
         android:id="@+id/introTextView"
@@ -16,47 +16,51 @@
         android:text="Social Media Integration"
         android:textColor="#ffffff"
         android:textSize="30sp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/guideline8"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.493"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.329" />
+        app:layout_constraintVertical_bias="0.835" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_begin="300dp" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_end="515dp" />
 
     <View
         android:id="@+id/googleView"
-        android:layout_width="180dp"
-        android:layout_height="80dp"
+        android:layout_width="250dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="44dp"
         android:background="@drawable/rectangle_box"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/facebookView"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/introTextView"
-        app:layout_constraintVertical_bias="0.148" />
-
-    <View
-        android:id="@+id/facebookView"
-        android:layout_width="180dp"
-        android:layout_height="80dp"
-        android:background="@drawable/rectangle_box"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/fLogInBtnMain"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/googleView"
-        app:layout_constraintTop_toBottomOf="@id/introTextView"
-        app:layout_constraintVertical_bias="0.148" />
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/guideline6" />
 
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/gAnimation"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         app:layout_constraintBottom_toBottomOf="@id/googleView"
         app:layout_constraintEnd_toStartOf="@id/gLogInText"
         app:layout_constraintStart_toStartOf="@id/googleView"
         app:layout_constraintTop_toTopOf="@id/googleView"
-        app:lottie_fileName="google_icon_lottie.json"
         app:lottie_autoPlay="true"
+        app:lottie_fileName="google_icon_lottie.json"
         app:lottie_loop="true"
-        app:lottie_speed="1"/>
+        app:lottie_speed="1" />
 
     <TextView
         android:id="@+id/gLogInText"
@@ -65,69 +69,35 @@
         android:layout_marginStart="32dp"
         android:fontFamily="@font/lemonte_buster"
         android:gravity="center"
-        android:text="Google \nSign In"
+        android:text="Google Sign In"
         android:textColor="#000000"
         android:textSize="18sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@id/googleView"
         app:layout_constraintEnd_toEndOf="@id/googleView"
         app:layout_constraintStart_toEndOf="@id/gAnimation"
-        app:layout_constraintTop_toTopOf="@id/googleView"
-        android:textStyle="bold"/>
+        app:layout_constraintTop_toTopOf="@id/googleView" />
 
-    <com.airbnb.lottie.LottieAnimationView
-        android:id="@+id/fAnimation"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        app:layout_constraintBottom_toBottomOf="@id/facebookView"
-        app:layout_constraintEnd_toStartOf="@id/fLogInText"
-        app:layout_constraintStart_toStartOf="@id/facebookView"
-        app:layout_constraintTop_toTopOf="@id/facebookView"
-        app:lottie_fileName="2826-facebook.json"
-        app:lottie_autoPlay="true"
-        app:lottie_loop="true"
-        app:lottie_speed="1"/>
 
-    <TextView
-        android:id="@+id/fLogInText"
-        android:layout_width="wrap_content"
+    <com.facebook.login.widget.LoginButton
+        android:id="@+id/fLogInBtnMain"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/lemonte_buster"
-        android:gravity="center"
-        android:text="Facebook \nSign In"
-        android:textColor="#000000"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@id/facebookView"
-        app:layout_constraintEnd_toEndOf="@id/facebookView"
-        app:layout_constraintStart_toEndOf="@id/fAnimation"
-        app:layout_constraintTop_toTopOf="@id/facebookView" />
-
-    <View
-        android:id="@+id/debugGoogleSignInView"
-        android:layout_width="100dp"
-        android:layout_height="70dp"
-        android:background="@drawable/rectangle_box"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/guideline7"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.186"
+        app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/googleView"
-        app:layout_constraintVertical_bias="0.121" />
+        app:layout_constraintVertical_bias="0.073" />
 
-    <TextView
-        android:id="@+id/debugGoogleTextView"
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline7"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Sign out from \nGoogle"
-        android:gravity="center"
-        android:textColor="#000000"
-        app:layout_constraintTop_toTopOf="@id/debugGoogleSignInView"
-        app:layout_constraintBottom_toBottomOf="@id/debugGoogleSignInView"
-        app:layout_constraintStart_toStartOf="@id/debugGoogleSignInView"
-        app:layout_constraintEnd_toEndOf="@id/debugGoogleSignInView"
-        android:fontFamily="@font/lemonte_buster"
-        android:textStyle="bold"
-        />
+        android:orientation="horizontal"
+        app:layout_constraintGuide_begin="558dp" />
+
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

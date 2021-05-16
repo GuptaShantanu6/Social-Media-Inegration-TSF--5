@@ -14,10 +14,14 @@ import android.view.animation.AnimationUtils
 import android.widget.TextView
 import android.widget.Toast
 import com.airbnb.lottie.LottieAnimationView
+import com.facebook.*
+import com.facebook.login.LoginResult
+import com.facebook.login.widget.LoginButton
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
+import com.google.firebase.auth.FacebookAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.ktx.auth
@@ -29,10 +33,15 @@ class MainActivity : AppCompatActivity() {
     private lateinit var mAuth: FirebaseAuth
     private lateinit var gProgressDialog : ProgressDialog
     private lateinit var fProgressDialog : ProgressDialog
-
+    private lateinit var callbackManager: CallbackManager
+    private lateinit var fAuth : FirebaseAuth
+    private lateinit var whichAcc : String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        FacebookSdk.sdkInitialize(applicationContext)
+
         setContentView(R.layout.activity_main)
 
         supportActionBar?.hide()
@@ -43,29 +52,28 @@ class MainActivity : AppCompatActivity() {
         window.statusBarColor = this.resources.getColor(R.color.black)
 
         mAuth = Firebase.auth
+        fAuth = Firebase.auth
+
+        whichAcc = "Facebook"
 
         gProgressDialog = ProgressDialog(this@MainActivity)
         fProgressDialog = ProgressDialog(this@MainActivity)
 
-        val currentUser = mAuth.currentUser
-        if (currentUser != null){
+        val gCurrentUser = mAuth.currentUser
+        val fCurrentUser = fAuth.currentUser
+
+        if (gCurrentUser != null || fCurrentUser != null){
             Firebase.auth.signOut()
         }
 
         val introText : TextView = findViewById(R.id.introTextView)
         val gAnim : LottieAnimationView = findViewById(R.id.gAnimation)
         val gLogInText : TextView = findViewById(R.id.gLogInText)
-        val fAnim : LottieAnimationView = findViewById(R.id.fAnimation)
-        val fLogInText : TextView = findViewById(R.id.fLogInText)
-        val debugGoogleView : View = findViewById(R.id.debugGoogleSignInView)
-        val debugGoogleText : TextView = findViewById(R.id.debugGoogleTextView)
+        val fLogInBtnMain : LoginButton = findViewById(R.id.fLogInBtnMain)
 
         val animationSlideDown = AnimationUtils.loadAnimation(this,R.anim.slide_down)
         val animationSlideLeft = AnimationUtils.loadAnimation(this,R.anim.slide_left)
         val animationSlideRight = AnimationUtils.loadAnimation(this,R.anim.slide_right)
-
-        debugGoogleText.visibility = View.GONE
-        debugGoogleView.visibility = View.GONE
 
         introText.startAnimation(animationSlideDown)
 
@@ -74,22 +82,34 @@ class MainActivity : AppCompatActivity() {
         val gView : View = findViewById(R.id.googleView)
         gView.setOnClickListener {
             gProgressDialog.setTitle("Please Wait")
+            gProgressDialog.setCancelable(false)
             gProgressDialog.show()
             googleSignIn(gProgressDialog)
         }
 
-        val fView : View = findViewById(R.id.facebookView)
-        fView.setOnClickListener {
-            startActivity(Intent(this,FacebookSignInActivity::class.java))
-        }
+        callbackManager = CallbackManager.Factory.create()
 
         gView.startAnimation(animationSlideRight)
         gAnim.startAnimation(animationSlideRight)
         gLogInText.startAnimation(animationSlideRight)
+        fLogInBtnMain.startAnimation(animationSlideLeft)
 
-        fView.startAnimation(animationSlideLeft)
-        fAnim.startAnimation(animationSlideLeft)
-        fLogInText.startAnimation(animationSlideLeft)
+        fLogInBtnMain.setReadPermissions("email","public_profile")
+        fLogInBtnMain.registerCallback(callbackManager, object : FacebookCallback<LoginResult> {
+            override fun onSuccess(result: LoginResult?) {
+                Log.d(fTAG,"facebook:onSuccess:$result")
+                handleFacebookAccessToken(result?.accessToken)
+            }
+
+            override fun onCancel() {
+                Log.d(fTAG,"facebook:onCancel")
+            }
+
+            override fun onError(error: FacebookException?) {
+                Log.d(fTAG,"facebook:onError",error)
+            }
+
+        })
 
     }
 
@@ -104,13 +124,14 @@ class MainActivity : AppCompatActivity() {
 
     private fun googleSignIn(gProgressDialog: ProgressDialog) {
         val signInIntent = mGoogleSignInClient.signInIntent
+        whichAcc = "Google"
         startActivityForResult(signInIntent, RC_SIGN_IN)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        if (requestCode == RC_SIGN_IN) {
+        if (requestCode == RC_SIGN_IN && whichAcc == "Google") {
             if (resultCode == Activity.RESULT_OK) {
                 val task = GoogleSignIn.getSignedInAccountFromIntent(data)
                 try {
@@ -120,9 +141,14 @@ class MainActivity : AppCompatActivity() {
                 } catch (e : ApiException) {
                     Toast.makeText(this,"Google Sign In Failed",Toast.LENGTH_SHORT).show()
                     Log.d(TAG,e.toString())
+                    whichAcc = "Facebook"
                 }
             }
+            whichAcc = "Facebook"
+        }
 
+        else if (whichAcc == "Facebook") {
+            callbackManager.onActivityResult(requestCode,resultCode,data)
         }
     }
 
@@ -151,12 +177,37 @@ class MainActivity : AppCompatActivity() {
                     Log.w(TAG,"signInWithCredential : Failed", task.exception)
 
                 }
+
+                whichAcc = "Facebook"
+
             }
+    }
+
+    private fun handleFacebookAccessToken(accessToken: AccessToken?) {
+        if (accessToken != null) {
+            Log.d(fTAG,"handleFacebookAccessToken:${accessToken.token}")
+        }
+
+        val credential = FacebookAuthProvider.getCredential(accessToken?.token!!)
+        fAuth.signInWithCredential(credential)
+            .addOnCompleteListener(this) { task ->
+                if (task.isSuccessful) {
+                    Log.d(fTAG,"signInWithCredential:success")
+                    val user = fAuth.currentUser
+                    Log.d(fTAG,user?.email!!)
+                }
+                else {
+                    Log.w(fTAG,"signInWithCredential:failure:${task.exception}")
+                    Toast.makeText(baseContext,"Authentication Failed.",Toast.LENGTH_SHORT).show()
+                }
+            }
+
     }
 
     companion object {
         private const val TAG = "GoogleActivity"
         private const val RC_SIGN_IN = 120
+        private const val fTAG = "FacebookActivity"
     }
 
 }
