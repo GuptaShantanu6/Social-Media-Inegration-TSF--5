@@ -43,11 +43,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var whichAcc : String
     private lateinit var fLogInBtnMain : LoginButton
 
-<<<<<<< HEAD
-=======
     var facebookLogInCheck : Int = 0
-
->>>>>>> af355a27a4ae8c97006cdfa7f641f3bad178c36c
+    
     @SuppressLint("CommitPrefEdits")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
