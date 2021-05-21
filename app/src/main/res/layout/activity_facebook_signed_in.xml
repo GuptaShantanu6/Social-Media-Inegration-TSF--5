@@ -5,8 +5,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#000000"
-    tools:context=".GoogleSignedInActivity">
+    tools:context=".FacebookSignedInActivity"
+    android:background="#000000">
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline3"
@@ -16,7 +16,7 @@
         app:layout_constraintGuide_percent="0.15" />
 
     <TextView
-        android:id="@+id/gNameHeading"
+        android:id="@+id/fNameHeading"
         android:layout_width="300dp"
         android:layout_height="40dp"
         android:fontFamily="@font/lemonte_buster"
@@ -24,13 +24,13 @@
         android:text="Name"
         android:textColor="#ffffff"
         android:textSize="20sp"
-        app:layout_constraintBottom_toTopOf="@id/gName"
+        app:layout_constraintBottom_toTopOf="@id/fName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@id/guideline3" />
 
     <TextView
-        android:id="@+id/gName"
+        android:id="@+id/fName"
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:fontFamily="@font/lemonte_buster"
@@ -42,7 +42,7 @@
         app:layout_constraintBottom_toTopOf="@id/guideline2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/gNameHeading" />
+        app:layout_constraintTop_toBottomOf="@id/fNameHeading" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline2"
@@ -70,7 +70,7 @@
         app:layout_constraintGuide_begin="358dp" />
 
     <TextView
-        android:id="@+id/gMailHeading"
+        android:id="@+id/fMailHeading"
         android:layout_width="300dp"
         android:layout_height="40dp"
         android:fontFamily="@font/lemonte_buster"
@@ -78,13 +78,13 @@
         android:text="Mail Id"
         android:textColor="#ffffff"
         android:textSize="20sp"
-        app:layout_constraintBottom_toTopOf="@id/gMail"
+        app:layout_constraintBottom_toTopOf="@id/fMail"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/guideline5" />
 
     <TextView
-        android:id="@+id/gMail"
+        android:id="@+id/fMail"
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:fontFamily="@font/lemonte_buster"
@@ -96,7 +96,7 @@
         app:layout_constraintBottom_toBottomOf="@id/guideline4"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/gMailHeading" />
+        app:layout_constraintTop_toBottomOf="@id/fMailHeading" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline4"
@@ -106,7 +106,7 @@
         app:layout_constraintGuide_end="331dp" />
 
     <View
-        android:id="@+id/gSignOutView"
+        android:id="@+id/fSignOutView"
         android:layout_width="150dp"
         android:layout_height="60dp"
         android:background="@drawable/rectangle_box"
@@ -116,7 +116,7 @@
         app:layout_constraintTop_toTopOf="@id/guideline4" />
 
     <TextView
-        android:id="@+id/gSignOutText"
+        android:id="@+id/fSignOutText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/lemonte_buster"
@@ -124,11 +124,10 @@
         android:textColor="#000000"
         android:textSize="20sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@id/gSignOutView"
-        app:layout_constraintEnd_toEndOf="@id/gSignOutView"
-        app:layout_constraintStart_toStartOf="@id/gSignOutView"
-        app:layout_constraintTop_toTopOf="@id/gSignOutView" />
-
+        app:layout_constraintBottom_toBottomOf="@id/fSignOutView"
+        app:layout_constraintEnd_toEndOf="@id/fSignOutView"
+        app:layout_constraintStart_toStartOf="@id/fSignOutView"
+        app:layout_constraintTop_toTopOf="@id/fSignOutView" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
