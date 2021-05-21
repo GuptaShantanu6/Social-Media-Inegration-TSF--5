@@ -24,12 +24,7 @@ import com.google.android.gms.common.api.ApiException
 import com.google.firebase.auth.FacebookAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
-import com.google.firebase.auth.UserInfo
 import com.google.firebase.auth.ktx.auth
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
 import com.google.firebase.ktx.Firebase
 
 class MainActivity : AppCompatActivity() {
@@ -41,14 +36,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var callbackManager: CallbackManager
     private lateinit var fAuth : FirebaseAuth
     private lateinit var whichAcc : String
-    private lateinit var fLogInBtnMain : LoginButton
 
-<<<<<<< HEAD
-=======
-    var facebookLogInCheck : Int = 0
-
->>>>>>> af355a27a4ae8c97006cdfa7f641f3bad178c36c
-    @SuppressLint("CommitPrefEdits")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -81,7 +69,7 @@ class MainActivity : AppCompatActivity() {
         val introText : TextView = findViewById(R.id.introTextView)
         val gAnim : LottieAnimationView = findViewById(R.id.gAnimation)
         val gLogInText : TextView = findViewById(R.id.gLogInText)
-        fLogInBtnMain = findViewById(R.id.fLogInBtnMain)
+        val fLogInBtnMain : LoginButton = findViewById(R.id.fLogInBtnMain)
 
         val animationSlideDown = AnimationUtils.loadAnimation(this,R.anim.slide_down)
         val animationSlideLeft = AnimationUtils.loadAnimation(this,R.anim.slide_left)
@@ -106,16 +94,11 @@ class MainActivity : AppCompatActivity() {
         gLogInText.startAnimation(animationSlideRight)
         fLogInBtnMain.startAnimation(animationSlideLeft)
 
-        val aIntent = intent
-        if (aIntent.getStringExtra("FROM").equals("fSignIn")) {
-            fLogInBtnMain.performClick()
-        }
-
-        fLogInBtnMain.setPermissions("email","public_profile")
+        fLogInBtnMain.setReadPermissions("email","public_profile")
         fLogInBtnMain.registerCallback(callbackManager, object : FacebookCallback<LoginResult> {
             override fun onSuccess(result: LoginResult?) {
                 Log.d(fTAG,"facebook:onSuccess:$result")
-                handleFacebookAccessToken(result?.accessToken, fProgressDialog)
+                handleFacebookAccessToken(result?.accessToken)
             }
 
             override fun onCancel() {
@@ -200,41 +183,18 @@ class MainActivity : AppCompatActivity() {
             }
     }
 
-    @SuppressLint("CommitPrefEdits")
-    private fun handleFacebookAccessToken(accessToken: AccessToken?, fProgressDialog: ProgressDialog) {
+    private fun handleFacebookAccessToken(accessToken: AccessToken?) {
         if (accessToken != null) {
             Log.d(fTAG,"handleFacebookAccessToken:${accessToken.token}")
         }
 
         val credential = FacebookAuthProvider.getCredential(accessToken?.token!!)
-
-        fProgressDialog.setTitle("Please Wait")
-        fProgressDialog.setCancelable(false)
-        fProgressDialog.show()
-
         fAuth.signInWithCredential(credential)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
                     Log.d(fTAG,"signInWithCredential:success")
                     val user = fAuth.currentUser
-                    Log.d(fTAG,user?.displayName!!)
-
-                    val providerData : List<UserInfo> = user.providerData
-                    val email : String = providerData[1].email!!
-
-                    Log.d(fTAG,email)
-
-                    val fInfo = baseContext.getSharedPreferences("fInfoMain",Context.MODE_PRIVATE).edit()
-                    fInfo.apply {
-                        putString("fName", user.displayName!!)
-                        putString("fMailId", email)
-                        apply()
-                    }
-
-                    fProgressDialog.dismiss()
-
-                    startActivity(Intent(this@MainActivity,FacebookSignedInActivity::class.java))
-
+                    Log.d(fTAG,user?.email!!)
                 }
                 else {
                     Log.w(fTAG,"signInWithCredential:failure:${task.exception}")
